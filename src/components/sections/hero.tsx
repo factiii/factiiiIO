@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Calendar, ExternalLink, Terminal } from "lucide-react";
 import Image from "next/image";
+import Script from "next/script";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,11 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-24">
+      <Script
+        src="https://platform.twitter.com/widgets.js"
+        strategy="lazyOnload"
+        charSet="utf-8"
+      />
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
 
       <Container className="flex flex-col items-center text-center">
@@ -155,6 +161,23 @@ export function Hero() {
               </div>
             </div>
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.45 }}
+          className="mt-8 flex flex-col items-center"
+        >
+          <blockquote className="twitter-tweet" data-theme="dark">
+            <p lang="en" dir="ltr">
+              Will be meeting 9AM CST on Tuesday to go over engineering details for initial version. Feel free to join at{" "}
+              <a href="https://t.co/a52EQRJ1O7">https://t.co/a52EQRJ1O7</a> would love to hear from everyone on this OSS idea.{" "}
+              <a href="https://t.co/m5BgSP6vP4">pic.twitter.com/m5BgSP6vP4</a>
+            </p>
+            &mdash; Jon (@JonSnyderHQ){" "}
+            <a href="https://twitter.com/JonSnyderHQ/status/1996968241688653892?ref_src=twsrc%5Etfw">December 5, 2025</a>
+          </blockquote>
         </motion.div>
 
         <motion.div
