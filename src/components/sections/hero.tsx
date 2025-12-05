@@ -176,7 +176,7 @@ export function Hero() {
               <a href="https://t.co/m5BgSP6vP4">pic.twitter.com/m5BgSP6vP4</a>
             </p>
             &mdash; Jon (@JonSnyderHQ){" "}
-            <a href="https://twitter.com/JonSnyderHQ/status/1996968241688653892?ref_src=twsrc%5Etfw">December 5, 2025</a>
+            <a href="https://twitter.com/JonSnyderHQ/status/1996983478248698240?ref_src=twsrc%5Etfw">December 5, 2025</a>
           </blockquote>
         </motion.div>
 
