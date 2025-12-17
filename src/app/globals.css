@@ -11,6 +11,8 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
   
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
@@ -31,7 +33,7 @@
 :root {
   --background: #0a0a0a;
   --foreground: #ededed;
-  --primary: #3B82F6;
+  --primary: #6366f1;
   --primary-foreground: #FFFFFF;
   --secondary: #8B5CF6;
   --secondary-foreground: #FFFFFF;
@@ -39,6 +41,8 @@
   --muted-foreground: #9CA3AF;
   --accent: #10B981;
   --accent-foreground: #FFFFFF;
+  --card: #0f0f0f;
+  --border: #1f1f1f;
 }
 
 body {
