@@ -40,3 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# claude code
+# Vendored third-party SEO toolkit: local tooling, not app source. Kept outside
+# .claude/skills/ so its 31 sub-skill descriptions do not load every turn.
+# Originals live in ~/.claude/skills-archive. Keep settings.json and the router.
+.claude/seo-toolkit/

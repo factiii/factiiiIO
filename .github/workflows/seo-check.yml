@@ -1,0 +1,42 @@
+name: SEO Check
+
+# Verifies production SEO invariants on factiii.io (indexability, canonicals,
+# robots.txt, sitemaps, structured data). Runs daily and after merges to main —
+# the post-merge run waits for the Vercel production deploy to go live first.
+# Manual runs: Actions tab → SEO Check → Run workflow.
+
+on:
+  schedule:
+    - cron: '41 9 * * *' # daily 09:17 UTC — off the hour to dodge cron congestion
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: seo-check
+  cancel-in-progress: true
+
+jobs:
+  seo-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts/seo-check.mjs
+          sparse-checkout-cone-mode: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Wait for production deploy
+        # Merges to main trigger the Vercel production build; give it time to
+        # go live so the check runs against the new deploy, not the old one.
+        if: github.event_name == 'push'
+        run: sleep 300
+
+      - name: Run SEO checks
+        run: node scripts/seo-check.mjs
