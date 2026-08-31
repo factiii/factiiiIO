@@ -1,5 +1,18 @@
 import { Database, ExternalLink, Terminal } from 'lucide-react';
+import type { Metadata } from 'next';
+
 import { Container } from '@/components/ui/container';
+
+// An operational error page. It must stay crawlable so the noindex is seen,
+// but it should never appear in results — it previously returned 200 while
+// inheriting the homepage title and canonical.
+export const metadata: Metadata = {
+  title: 'Setup required - factiii.io',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function RedisSetupRequired() {
   return (

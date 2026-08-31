@@ -21,18 +21,20 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "factiii.io | Open source from Factiii",
   description,
-  alternates: {
-    canonical: "/",
-  },
+  // No default canonical here. A canonical on the root layout is inherited by
+  // every page that does not override it, which makes each one claim to be a
+  // duplicate of the homepage. Indexable pages declare their own.
   openGraph: {
     type: "website",
     url: siteUrl,
     siteName: "factiii.io",
     title: "Open source from Factiii",
     description,
+    images: [{ url: "/logo.jpg", width: 960, height: 960, alt: "Factiii" }],
   },
   twitter: {
     card: "summary",
+    images: ["/logo.jpg"],
     title: "Open source from Factiii",
     description,
   },

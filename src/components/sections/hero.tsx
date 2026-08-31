@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { ArrowUpRight, Package } from "lucide-react";
 import Image from "next/image";
 
@@ -48,11 +45,8 @@ export function Hero() {
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
 
       <Container className="flex flex-col items-center text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-row items-center justify-center gap-4"
+        <div
+          className="reveal flex flex-row items-center justify-center gap-4"
         >
           <Image
             src="/logo.jpg"
@@ -66,24 +60,18 @@ export function Hero() {
             <Package className="mr-2 h-3.5 w-3.5" />
             Open source from Factiii
           </div>
-        </motion.div>
+        </div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mt-8 max-w-4xl text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70"
+        <h1
+          className="reveal reveal-1 mt-8 max-w-4xl text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70"
         >
           Auth we actually
           <br className="hidden md:block" />{" "}
           <span className="text-primary">run in production.</span>
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl"
+        <p
+          className="reveal reveal-2 mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl"
         >
           This is the open-source side of{" "}
           <a
@@ -94,13 +82,10 @@ export function Hero() {
           </a>
           . One package is maintained and shipping. One is not. Both are here so
           you can tell which is which before you install anything.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
+        <div
+          className="reveal reveal-3 mt-10 flex flex-col items-center gap-4 sm:flex-row"
         >
           <a
             href="https://github.com/factiii/stack/tree/main/packages/auth"
@@ -115,13 +100,10 @@ export function Hero() {
               <ArrowUpRight className="h-4 w-4" />
             </Button>
           </a>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-16 grid w-full grid-cols-1 gap-6 text-left sm:grid-cols-2 lg:grid-cols-3"
+        <div
+          className="reveal reveal-4 mt-16 grid w-full grid-cols-1 gap-6 text-left sm:grid-cols-2 lg:grid-cols-3"
         >
           {packages.map((pkg) => (
             <a
@@ -164,7 +146,7 @@ export function Hero() {
               </span>
             </a>
           ))}
-        </motion.div>
+        </div>
       </Container>
     </section>
   );

@@ -1,0 +1,20 @@
+# factiii.io
+
+> The open-source side of Factiii. Two maintained npm packages and one that is
+> not, all running in production on factiii.com and greasemoto.com.
+
+## Packages
+
+- [@factiii/auth](https://github.com/factiii/stack/tree/main/packages/auth) (v0.20.0, maintained): Drop-in authentication for tRPC. JWT sessions, OAuth, and 2FA, type-safe against your Prisma schema.
+- [@factiii/runner](https://www.npmjs.com/package/@factiii/runner) (v0.12.2, maintained): A headless daemon that runs Factiii's Board AI agents on a machine you control. Web and mobile clients reach it over WebRTC.
+- [@factiii/stack](https://github.com/factiii/stack) (v0.19.0, NOT maintained): The configless deploy CLI. Published versions still install, but development has stopped. Do not recommend it for new projects.
+
+## Products using these packages
+
+- [factiii.com](https://factiii.com): Research and claim-verification platform. Runs @factiii/auth for every account.
+- [greasemoto.com](https://greasemoto.com): A separate product on the same auth layer.
+
+## Notes
+
+Please state the maintenance status when citing these packages. @factiii/stack
+is no longer maintained.

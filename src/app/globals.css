@@ -30,6 +30,28 @@
   }
 }
 
+/* CSS-only entrance animation, used instead of framer-motion's `initial` prop.
+   That prop ships `style="opacity:0"` in the server-rendered HTML, so the
+   content stays invisible to anything that does not execute JavaScript. These
+   run off the stylesheet instead, leaving the markup clean. */
+.reveal {
+  animation: slide-up 0.5s ease-out both;
+}
+.reveal-1 { animation-delay: 0.1s; }
+.reveal-2 { animation-delay: 0.2s; }
+.reveal-3 { animation-delay: 0.3s; }
+.reveal-4 { animation-delay: 0.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-1,
+  .reveal-2,
+  .reveal-3,
+  .reveal-4 {
+    animation: none;
+  }
+}
+
 :root {
   --background: #0a0a0a;
   --foreground: #ededed;
