@@ -13,9 +13,29 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://factiii.io";
+const description =
+  "Open-source packages from Factiii. @factiii/auth is drop-in authentication for tRPC, and @factiii/runner runs Board AI agents on your own machine. Both run in production on factiii.com and greasemoto.com. @factiii/stack is no longer maintained.";
+
 export const metadata: Metadata = {
-  title: "factiii.io | Configless Developer Stack",
-  description: "The open-source hub for Factiii's configless developer stack. Scaffold T3 apps in seconds.",
+  metadataBase: new URL(siteUrl),
+  title: "factiii.io | Open source from Factiii",
+  description,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: "factiii.io",
+    title: "Open source from Factiii",
+    description,
+  },
+  twitter: {
+    card: "summary",
+    title: "Open source from Factiii",
+    description,
+  },
   icons: {
     icon: "/favicon.ico",
   },
