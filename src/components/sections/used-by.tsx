@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
@@ -38,17 +35,13 @@ export function UsedBy() {
         </div>
 
         <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
-          {sites.map((site, index) => (
-            <motion.a
+          {sites.map((site) => (
+            <a
               key={site.name}
               href={site.href}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group flex flex-col rounded-2xl border border-border bg-card/50 p-6 transition-colors hover:border-primary/40"
+              className="reveal-view group flex flex-col rounded-2xl border border-border bg-card/50 p-6 transition-colors hover:border-primary/40"
             >
               <div className="flex items-center gap-1.5">
                 <span className="text-lg font-semibold text-foreground">
@@ -69,7 +62,7 @@ export function UsedBy() {
                   </span>
                 ))}
               </div>
-            </motion.a>
+            </a>
           ))}
         </div>
       </Container>

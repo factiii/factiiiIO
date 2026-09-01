@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { Code2, ShieldCheck, Terminal } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
@@ -66,13 +63,9 @@ export function HowItWorks() {
 
           <div className="space-y-12">
             {steps.map((step, index) => (
-              <motion.div
+              <div
                 key={step.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={`relative flex flex-col md:flex-row gap-8 ${
+                className={`reveal-view relative flex flex-col md:flex-row gap-8 ${
                   index % 2 === 0 ? "md:flex-row-reverse" : ""
                 }`}
               >
@@ -109,7 +102,7 @@ export function HowItWorks() {
                     </div>
                   )}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

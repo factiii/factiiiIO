@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
@@ -21,12 +18,8 @@ export function Status() {
             </h2>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="rounded-2xl border border-border bg-background p-8 sm:p-10"
+          <div
+            className="reveal-view rounded-2xl border border-border bg-background p-8 sm:p-10"
           >
             <div className="inline-flex items-center rounded-full border border-border bg-muted/50 px-3 py-1 text-xs font-medium text-muted-foreground">
               <span className="mr-2 flex h-2 w-2 rounded-full bg-muted-foreground" />
@@ -76,7 +69,7 @@ export function Status() {
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </a>
             </div>
-          </motion.div>
+          </div>
         </div>
       </Container>
     </section>

@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { ArrowUpRight, Cpu, KeySquare, Radio } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
@@ -45,18 +42,14 @@ export function Runner() {
         </div>
 
         <div className="mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="rounded-lg border border-border bg-background p-5 font-mono text-sm overflow-x-auto"
+          <div
+            className="reveal-view rounded-lg border border-border bg-background p-5 font-mono text-sm overflow-x-auto"
           >
             <pre className="text-foreground">
               <code>{`npx @factiii/runner setup   # check the host toolchain, pair this runner
 factiii-runner start        # run the daemon`}</code>
             </pre>
-          </motion.div>
+          </div>
 
           <p className="mt-4 text-center text-sm text-muted-foreground">
             Needs Node 20+, plus git, tmux and redis-server on PATH, and the
@@ -64,14 +57,10 @@ factiii-runner start        # run the daemon`}</code>
           </p>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-            {traits.map((trait, index) => (
-              <motion.div
+            {traits.map((trait) => (
+              <div
                 key={trait.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="rounded-2xl border border-border bg-background p-6"
+                className="reveal-view rounded-2xl border border-border bg-background p-6"
               >
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-secondary/10">
                   <trait.icon className="h-6 w-6 text-secondary" />
@@ -82,7 +71,7 @@ factiii-runner start        # run the daemon`}</code>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {trait.description}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
 
