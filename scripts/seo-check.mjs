@@ -149,11 +149,25 @@ async function checkSitemaps() {
   }
   pass("sitemap.xml: 200");
 
-  const childUrls = [...res.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  if (childUrls.length === 0) {
+  const locs = [...res.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  if (locs.length === 0) {
     fail("sitemap.xml: no <loc> entries");
     return [];
   }
+
+  // /sitemap.xml is either a <sitemapindex> pointing at child sitemaps or a
+  // flat <urlset> of pages. factiii.com serves the first, factiii.io the
+  // second, so decide from the root element rather than assuming.
+  const isIndex = /<sitemapindex[\s>]/i.test(res.body);
+  if (!isIndex) {
+    pass(`sitemap.xml: flat urlset, ${locs.length} URL(s)`);
+    const picks = new Set(
+      [0, Math.floor(locs.length / 2), locs.length - 1].slice(0, SAMPLES_PER_SITEMAP),
+    );
+    return [...picks].map((i) => locs[i]);
+  }
+
+  const childUrls = locs;
   pass(`sitemap.xml: ${childUrls.length} child sitemap(s)`);
 
   const sampled = [];
