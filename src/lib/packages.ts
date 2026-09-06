@@ -18,9 +18,19 @@ export type PackageInfo = {
   linkLabel: string;
   /** True when the version below is the hard-coded fallback, not live npm data. */
   versionIsStale: boolean;
+  /**
+   * npm's own deprecation notice for the latest version, when one is set.
+   * Read from the registry rather than hand-written: this is a hard fact about
+   * what `npm install` prints, not an editorial judgement, so the page follows
+   * npm automatically the moment `npm deprecate` runs.
+   */
+  deprecationNotice: string | null;
 };
 
-type PackageSeed = Omit<PackageInfo, "version" | "versionIsStale"> & {
+type PackageSeed = Omit<
+  PackageInfo,
+  "version" | "versionIsStale" | "deprecationNotice"
+> & {
   /** Used only when the registry is unreachable. Keep roughly current. */
   fallbackVersion: string;
 };
@@ -62,7 +72,9 @@ export const VERSION_REVALIDATE_SECONDS = 3600;
 // for the small one, which is a few hundred bytes instead of megabytes.
 const ABBREVIATED = "application/vnd.npm.install-v1+json";
 
-async function fetchLatestVersion(name: string): Promise<string | null> {
+type RegistryFacts = { version: string; deprecationNotice: string | null };
+
+async function fetchRegistryFacts(name: string): Promise<RegistryFacts | null> {
   // Scoped names must have the slash encoded, but not the @.
   const encoded = name.replace("/", "%2f");
   try {
@@ -71,8 +83,18 @@ async function fetchLatestVersion(name: string): Promise<string | null> {
       next: { revalidate: VERSION_REVALIDATE_SECONDS },
     });
     if (!res.ok) return null;
-    const body = (await res.json()) as { "dist-tags"?: { latest?: string } };
-    return body["dist-tags"]?.latest ?? null;
+    const body = (await res.json()) as {
+      "dist-tags"?: { latest?: string };
+      versions?: Record<string, { deprecated?: string }>;
+    };
+    const version = body["dist-tags"]?.latest;
+    if (!version) return null;
+    // The abbreviated document omits `deprecated` entirely unless it is set.
+    const deprecated = body.versions?.[version]?.deprecated;
+    return {
+      version,
+      deprecationNotice: typeof deprecated === "string" && deprecated.trim() ? deprecated : null,
+    };
   } catch {
     // A registry outage must not fail the build or blank the page.
     return null;
@@ -85,11 +107,12 @@ async function fetchLatestVersion(name: string): Promise<string | null> {
  * the others down.
  */
 export async function getPackages(): Promise<PackageInfo[]> {
-  const versions = await Promise.all(seeds.map((p) => fetchLatestVersion(p.name)));
+  const facts = await Promise.all(seeds.map((p) => fetchRegistryFacts(p.name)));
 
   return seeds.map(({ fallbackVersion, ...seed }, i) => ({
     ...seed,
-    version: versions[i] ?? fallbackVersion,
-    versionIsStale: versions[i] === null,
+    version: facts[i]?.version ?? fallbackVersion,
+    versionIsStale: facts[i] === null,
+    deprecationNotice: facts[i]?.deprecationNotice ?? null,
   }));
 }

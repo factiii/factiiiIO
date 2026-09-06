@@ -48,8 +48,8 @@ export async function Hero() {
           >
             Factiii
           </a>
-          . One package is maintained and shipping. One is not. Both are here so
-          you can tell which is which before you install anything.
+          . Two packages are maintained and shipping. One is not. All three are
+          here so you can tell which is which before you install anything.
         </p>
 
         <div
@@ -105,6 +105,11 @@ export async function Hero() {
                 />
                 {pkg.status}
               </div>
+              {pkg.deprecationNotice ? (
+                <p className="mt-2 font-mono text-xs text-muted-foreground">
+                  Deprecated on npm
+                </p>
+              ) : null}
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 {pkg.desc}
               </p>
