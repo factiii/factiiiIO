@@ -3,43 +3,11 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { getPackages } from "@/lib/packages";
 
-// Everything Factiii publishes to npm. Status strings here must match the
-// package READMEs — this page is the first thing anyone finds when they search
-// the package names, so a stale "maintained" claim costs more than saying
-// nothing. The runner links to npm, not GitHub: its source still lives in the
-// private product monorepo, so there is no public repository to point at yet.
-const packages = [
-  {
-    name: "@factiii/auth",
-    version: "0.20.0",
-    status: "Maintained",
-    maintained: true,
-    desc: "Drop-in authentication for tRPC. JWT sessions, OAuth, and 2FA, all type-safe against your Prisma schema.",
-    href: "https://github.com/factiii/stack/tree/main/packages/auth",
-    linkLabel: "Source on GitHub",
-  },
-  {
-    name: "@factiii/runner",
-    version: "0.12.2",
-    status: "Maintained",
-    maintained: true,
-    desc: "A headless daemon that runs Factiii's Board AI agents on a machine you control. The web and mobile clients reach it over WebRTC.",
-    href: "https://www.npmjs.com/package/@factiii/runner",
-    linkLabel: "Package on npm",
-  },
-  {
-    name: "@factiii/stack",
-    version: "0.19.0",
-    status: "No longer maintained",
-    maintained: false,
-    desc: "The configless deploy CLI. Published versions still install, but the package is not developed further. See the project status below.",
-    href: "https://github.com/factiii/stack",
-    linkLabel: "Source on GitHub",
-  },
-];
+export async function Hero() {
+  const packages = await getPackages();
 
-export function Hero() {
   return (
     <section className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-24">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />

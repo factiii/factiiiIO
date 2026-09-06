@@ -8,6 +8,7 @@ import { HowItWorks } from "@/components/sections/how-it-works";
 import { Runner } from "@/components/sections/runner";
 import { Status } from "@/components/sections/status";
 import { UsedBy } from "@/components/sections/used-by";
+import { getPackages, type PackageInfo } from "@/lib/packages";
 
 const siteUrl = "https://factiii.io";
 
@@ -19,59 +20,57 @@ export const metadata: Metadata = {
   },
 };
 
-// Versions and maintenance status must match the package list in Hero. Emitted
-// server-side: Google may defer processing of JSON-LD injected by JavaScript,
-// and most AI crawlers do not run it at all.
-const structuredData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": `${siteUrl}/#organization`,
-      name: "Factiii",
-      url: siteUrl,
-      logo: `${siteUrl}/logo.jpg`,
-      description:
-        "Factiii builds a research and claim-verification platform, and publishes the packages behind it as open source.",
-      sameAs: [
-        "https://github.com/factiii",
-        "https://www.npmjs.com/org/factiii",
-        "https://factiii.com",
-      ],
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${siteUrl}/#website`,
-      url: siteUrl,
-      name: "factiii.io",
-      publisher: { "@id": `${siteUrl}/#organization` },
-    },
-    {
-      "@type": "SoftwareSourceCode",
-      name: "@factiii/auth",
-      description:
-        "Drop-in authentication for tRPC. JWT sessions, OAuth, and 2FA, all type-safe against your Prisma schema.",
-      codeRepository: "https://github.com/factiii/stack/tree/main/packages/auth",
-      programmingLanguage: "TypeScript",
-      runtimePlatform: "Node.js",
-      softwareVersion: "0.20.0",
-      author: { "@id": `${siteUrl}/#organization` },
-    },
-    {
-      "@type": "SoftwareSourceCode",
-      name: "@factiii/runner",
-      description:
-        "A headless daemon that runs Factiii's Board AI agents on a machine you control. The web and mobile clients reach it over WebRTC.",
-      url: "https://www.npmjs.com/package/@factiii/runner",
-      programmingLanguage: "TypeScript",
-      runtimePlatform: "Node.js",
-      softwareVersion: "0.12.2",
-      author: { "@id": `${siteUrl}/#organization` },
-    },
-  ],
-};
+// Built from the same source as the Hero cards, so the structured data and the
+// visible version can never disagree. Emitted server-side: Google may defer
+// processing of JSON-LD injected by JavaScript, and most AI crawlers do not run
+// it at all.
+function buildStructuredData(packages: PackageInfo[]) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        name: "Factiii",
+        url: siteUrl,
+        logo: `${siteUrl}/logo.jpg`,
+        description:
+          "Factiii builds a research and claim-verification platform, and publishes the packages behind it as open source.",
+        sameAs: [
+          "https://github.com/factiii",
+          "https://www.npmjs.com/org/factiii",
+          "https://factiii.com",
+        ],
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        url: siteUrl,
+        name: "factiii.io",
+        publisher: { "@id": `${siteUrl}/#organization` },
+      },
+      // Only the maintained packages are described. Emitting SoftwareSourceCode
+      // for a package we tell people not to adopt would invite rich results for
+      // it.
+      ...packages
+        .filter((pkg) => pkg.maintained)
+        .map((pkg) => ({
+          "@type": "SoftwareSourceCode",
+          name: pkg.name,
+          description: pkg.desc,
+          [pkg.href.includes("github.com") ? "codeRepository" : "url"]: pkg.href,
+          programmingLanguage: "TypeScript",
+          runtimePlatform: "Node.js",
+          softwareVersion: pkg.version,
+          author: { "@id": `${siteUrl}/#organization` },
+        })),
+    ],
+  };
+}
 
-export default function Home() {
+export default async function Home() {
+  const structuredData = buildStructuredData(await getPackages());
+
   return (
     <main className="flex min-h-screen flex-col">
       <script
